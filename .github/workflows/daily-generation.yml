@@ -1,0 +1,39 @@
+name: Daily Data Generation
+
+on:
+  schedule:
+    # 00:30 UTC = 6:00 AM IST -- runs after the previous US market
+    # close (1:30 AM IST) and before Asia-Pacific markets reopen,
+    # so one run captures one clean, complete global trading day.
+    - cron: '30 0 * * *'
+  workflow_dispatch: {}    # allows manual "Run workflow" trigger too
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: data-generation
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily generation
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        run: python -m src.main --upload
+
+      - name: Commit updated state
+        working-directory: .
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data-generation/state/state.json
+          git diff --cached --quiet || git commit -m "chore: update state after daily generation run"
+          git push
