@@ -1,18 +1,6 @@
-"""
-Orchestrates one daily run, in the required order:
-
-  1. Market_Price          (no dependencies -- must run first)
-  2. Investor               (no dependencies)
-  3. Fund                    (no dependencies)
-  4. Commitment               (needs Investor + Fund)
-  5. Portfolio_Company          (needs Fund + Market_Price tickers)
-  6. Payment                      (needs Commitment + Portfolio_Company + Market_Price)
-
-Usage:
-    python -m src.main                 # generate only, local files
-    python -m src.main --upload        # generate + push to ADLS
-"""
 import argparse
+from dotenv import load_dotenv
+load_dotenv()
 
 from .common.state import load_state, save_state
 from .common.config import get_business_date, DATA_ROOT, TABLE_FOLDERS
