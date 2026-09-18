@@ -349,7 +349,7 @@
       "investor_id": "LP_0005",
       "committed_amount_usd": 14201882,
       "commitment_date": "2025-07-25",
-      "contributed_total": 0,
+      "contributed_total": 3454547.74,
       "invested_total": 0
     },
     {
@@ -520,7 +520,7 @@
       "investor_id": "LP_0039",
       "committed_amount_usd": 11445014,
       "commitment_date": "2023-09-30",
-      "contributed_total": 0,
+      "contributed_total": 1710549.72,
       "invested_total": 0
     },
     {
@@ -529,7 +529,7 @@
       "investor_id": "LP_0016",
       "committed_amount_usd": 6345422,
       "commitment_date": "2025-04-28",
-      "contributed_total": 0,
+      "contributed_total": 879195.05,
       "invested_total": 0
     },
     {
@@ -646,7 +646,7 @@
       "investor_id": "LP_0004",
       "committed_amount_usd": 19985095,
       "commitment_date": "2025-09-14",
-      "contributed_total": 0,
+      "contributed_total": 2070189.15,
       "invested_total": 0
     },
     {
@@ -709,7 +709,7 @@
       "investor_id": "LP_0030",
       "committed_amount_usd": 10932843,
       "commitment_date": "2024-02-14",
-      "contributed_total": 0,
+      "contributed_total": 819754.19,
       "invested_total": 0
     },
     {
@@ -718,7 +718,7 @@
       "investor_id": "LP_0040",
       "committed_amount_usd": 5646913,
       "commitment_date": "2024-01-06",
-      "contributed_total": 0,
+      "contributed_total": 490643.87,
       "invested_total": 0
     },
     {
@@ -763,7 +763,7 @@
       "investor_id": "LP_0014",
       "committed_amount_usd": 7413724,
       "commitment_date": "2025-07-25",
-      "contributed_total": 0,
+      "contributed_total": 1255389.46,
       "invested_total": 0
     },
     {
@@ -871,7 +871,7 @@
       "investor_id": "LP_0009",
       "committed_amount_usd": 6613692,
       "commitment_date": "2024-05-17",
-      "contributed_total": 0,
+      "contributed_total": 488076.84,
       "invested_total": 0
     },
     {
@@ -1146,7 +1146,7 @@
     "fund": 5,
     "commitment": 66,
     "company": 30,
-    "payment": 51
+    "payment": 72
   },
-  "last_business_date": "2026-09-17"
+  "last_business_date": "2026-09-18"
 }
