@@ -1,11 +1,11 @@
 -- ============================================================================
--- A. FILTERING & BASIC SELECTS
+--  FILTERING & BASIC SELECTS
 -- Source: gold schema — PE Fund Capital, Payment & Reconciliation Platform
 -- Queries: Q1 – Q4
 -- ============================================================================
 
 
--- Q1 (A1). All funds ordered by vintage_year descending
+-- Q1 . All funds ordered by vintage_year descending
 SELECT  fund_id,
         fund_name,
         vintage_year,
@@ -14,14 +14,14 @@ FROM    gold.fund_snapshot
 ORDER BY vintage_year DESC;
 
 
--- Q2 (A2). CASH reconciliation rows that are BREAKs
+-- Q2 . CASH reconciliation rows that are BREAKs
 SELECT  *
 FROM    gold.reconciliation
 WHERE   recon_type = 'CASH'
   AND   status     = 'BREAK';
 
 
--- Q3 (A3). Partial-match companies: has_benchmark=1 but no position, OR has_position=1 but no benchmark
+-- Q3 . Partial-match companies: has_benchmark=1 but no position, OR has_position=1 but no benchmark
 SELECT  company_id,
         company_name,
         fund_id,
@@ -33,7 +33,7 @@ WHERE   (has_benchmark = 1 AND has_position = 0)
    OR   (has_position  = 1 AND has_benchmark = 0);
 
 
--- Q4 (A4). DQ rows with a failure reason and failure_rate > 0
+-- Q4 . DQ rows with a failure reason and failure_rate > 0
 --          business_date and created_at are ISO-8601 text — cast before sorting by date
 SELECT  source_name,
         CAST(business_date AS DATE)      AS business_date,

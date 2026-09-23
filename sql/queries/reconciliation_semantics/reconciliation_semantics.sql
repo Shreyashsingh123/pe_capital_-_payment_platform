@@ -1,11 +1,11 @@
 -- ============================================================================
--- F. RECONCILIATION SEMANTICS
+--  RECONCILIATION SEMANTICS
 -- Source: gold schema — PE Fund Capital, Payment & Reconciliation Platform
 -- Queries: Q20 – Q22
 -- ============================================================================
 
 
--- Q20 (F1). Break reason frequency by recon_type
+-- Q20 . Break reason frequency by recon_type
 --           Separates expected timing-difference breaks from genuine data breaks
 SELECT  recon_type,
         break_reason,
@@ -16,7 +16,7 @@ GROUP BY recon_type, break_reason
 ORDER BY recon_type, occurrence_count DESC;
 
 
--- Q21 (F2). Tolerance-based reclassification for POSITION rows
+-- Q21 . Tolerance-based reclassification for POSITION rows
 --           Rows within 1% of quantity are reclassified as TOLERANCE_MATCH
 SELECT  recon_id,
         recon_type,
@@ -38,7 +38,7 @@ WHERE   recon_type = 'POSITION'
 ORDER BY adjusted_status, ABS(difference) DESC;
 
 
--- Q22 (F3). Defect / RCA log — all BREAK rows with full "steps to reproduce" fields
+-- Q22 . Defect / RCA log — all BREAK rows with full "steps to reproduce" fields
 SELECT  recon_id,
         recon_type,
         business_date,

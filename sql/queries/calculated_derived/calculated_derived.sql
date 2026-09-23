@@ -1,11 +1,11 @@
 -- ============================================================================
--- D. CALCULATED / DERIVED LOGIC
+-- CALCULATED / DERIVED LOGIC
 -- Source: gold schema — PE Fund Capital, Payment & Reconciliation Platform
 -- Queries: Q14 – Q16
 -- ============================================================================
 
 
--- Q14 (D1). Percent-called ratio per fund (uncalled_capital / total_commitments)
+-- Q14 . Percent-called ratio per fund (uncalled_capital / total_commitments)
 SELECT  fund_id,
         fund_name,
         total_commitments,
@@ -21,7 +21,7 @@ FROM    gold.fund_snapshot
 ORDER BY pct_called DESC;
 
 
--- Q15 (D2). Integrity check: estimated_nav should equal portfolio_value + available_cash_internal
+-- Q15 . Integrity check: estimated_nav should equal portfolio_value + available_cash_internal
 --           Returns any rows where the equation doesn't hold (should be empty if pipeline is clean)
 SELECT  fund_id,
         portfolio_value,
@@ -34,7 +34,7 @@ WHERE   ABS(estimated_nav - (portfolio_value + available_cash_internal)) > 0.01
    OR   estimated_nav IS NULL;
 
 
--- Q16 (D3). Flag rows where source values differ but status = MATCH
+-- Q16 . Flag rows where source values differ but status = MATCH
 --           Should return zero rows if the pipeline is consistent
 SELECT  recon_id,
         recon_type,

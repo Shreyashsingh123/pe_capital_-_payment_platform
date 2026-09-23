@@ -1,11 +1,11 @@
 -- ============================================================================
--- B. JOINS
+--  JOINS
 -- Source: gold schema — PE Fund Capital, Payment & Reconciliation Platform
 -- Queries: Q5 – Q8
 -- ============================================================================
 
 
--- Q5 (B1). Fund alongside its portfolio companies and each company's market_value
+-- Q5 . Fund alongside its portfolio companies and each company's market_value
 SELECT  fs.fund_id,
         fs.fund_name,
         fs.vintage_year,
@@ -18,7 +18,7 @@ JOIN    gold.portfolio_valuation pv  ON pv.fund_id = fs.fund_id
 ORDER BY fs.fund_id, pv.market_value DESC;
 
 
--- Q6 (B2). fund_name next to every BREAK reconciliation row (any recon_type)
+-- Q6 . fund_name next to every BREAK reconciliation row (any recon_type)
 SELECT  r.recon_id,
         r.recon_type,
         r.business_date,
@@ -34,7 +34,7 @@ WHERE   r.status = 'BREAK'
 ORDER BY r.recon_type, r.business_date;
 
 
--- Q7 (B3). Left join portfolio companies to market_price to verify benchmark price history exists
+-- Q7 . Left join portfolio companies to market_price to verify benchmark price history exists
 SELECT  pv.company_id,
         pv.company_name,
         pv.benchmark_ticker,
@@ -51,7 +51,7 @@ GROUP BY pv.company_id, pv.company_name, pv.benchmark_ticker, pv.fund_id
 ORDER BY price_coverage, pv.company_id;
 
 
--- Q8 (B4). CAPITAL_CALL payment totals per fund by name — INTERNAL vs EXTERNAL side by side
+-- Q8 . CAPITAL_CALL payment totals per fund by name — INTERNAL vs EXTERNAL side by side
 SELECT  fs.fund_id,
         fs.fund_name,
         ps.payment_type,

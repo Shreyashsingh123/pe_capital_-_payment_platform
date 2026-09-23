@@ -5,7 +5,7 @@
 -- ============================================================================
 
 
--- Q17 (E1). Latest price bar per ticker using ROW_NUMBER()
+-- Q17 . Latest price bar per ticker using ROW_NUMBER()
 WITH ranked AS (
     SELECT  *,
             ROW_NUMBER() OVER (
@@ -28,7 +28,7 @@ WHERE   rn = 1
 ORDER BY ticker;
 
 
--- Q18 (E2). Rank portfolio companies within each fund by market_value descending
+-- Q18 . Rank portfolio companies within each fund by market_value descending
 SELECT  fund_id,
         company_id,
         company_name,
@@ -42,7 +42,7 @@ FROM    gold.portfolio_valuation
 ORDER BY fund_id, value_rank;
 
 
--- Q19 (E3). Percentage of each status out of all rows per recon_type
+-- Q19 . Percentage of each status out of all rows per recon_type
 SELECT  recon_type,
         status,
         COUNT(*)                                          AS status_count,
