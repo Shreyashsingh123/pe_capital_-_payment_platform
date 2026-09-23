@@ -84,17 +84,14 @@ which matters more here than automation convenience.
   Databricks run aren't captured back into the audit table. Run status,
   timestamps, and success/failure are accurate; row-count granularity was
   deprioritized given the project timeline.
-- **The Databricks Job (`RunMedallionJob`) currently contains only the
-  Bronze ingestion task.** Silver, Reconciliation, Gold, and SQL-upload
-  work will be added by DE-2; any resulting changes needed here will be
-  reflected in this document once that work actually happens.
-- **Failure-path testing is incomplete.** One test run
-  (`audit_id = 1`, `run_id = b1494a61-a787-47c...`) was manually
-  cancelled mid-execution to avoid unnecessary serverless compute cost.
-  Cancelling a pipeline run does **not** trigger ADF's "on failure"
-  activity path — it halts execution directly — so this run left an
-  orphaned row permanently stuck at `status = RUNNING`, `end_time = NULL`,
-  and does **not** demonstrate that `AuditCompleteFailure` fires
-  correctly. A genuine failure test (e.g. pointing one source at a
-  nonexistent path, which errors near-instantly and costs very little)
-  is still needed to actually verify the failure-handling branch.
+- **Failure-path testing — verified.** A genuine failure was induced by
+  pointing one source at a nonexistent path. Confirmed in
+  `control.pipeline_audit`: `audit_id = 4`, `run_id = a8563750-5de4-429...`,
+  `start_time = 2026-09-23T10:01:5...`, `end_time = 2026-09-23T10:10:4...`,
+  `status = FAILED` — a real start/end time pair, not a row stuck at
+  `RUNNING` like the earlier cancelled-run attempt. The pipeline canvas
+  confirms `ForEachSource`'s red failure branch correctly routed into
+  `AuditCompleteFailure`, which executed successfully (green checkmark).
+  Both the success path (rows 2–3) and failure path (row 4) are now
+  demonstrated with real evidence. See `adf/pipeline/` for the
+  supporting screenshots.
