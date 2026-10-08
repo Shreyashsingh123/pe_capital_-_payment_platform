@@ -26,14 +26,22 @@ jobs:
 
       - name: Run tests with coverage
         working-directory: data-generation
-        run: python -m pytest --cov=src --cov=scripts --cov-report=xml:coverage.xml --cov-report=term-missing
+        run: python -m pytest --cov --cov-report=xml:coverage.xml --cov-report=term-missing
 
-      # The Python Cobertura sensor resolves relative <source> entries against the
-      # scanner working directory (repo root), but coverage.xml is generated in
-      # data-generation, so make the sources repo-relative.
-      - name: Make coverage paths repo-relative for Sonar
+      # coverage.xml lists file names relative to data-generation (src/..., scripts/...)
+      # and may contain an empty <source>. Replace the sources with one absolute
+      # directory so Sonar can resolve every file from the repo root.
+      - name: Make coverage paths resolvable for Sonar
         working-directory: data-generation
-        run: sed -i -E 's#<source>([^/<][^<]*)</source>#<source>data-generation/\1</source>#' coverage.xml
+        run: |
+          python - <<'PY'
+          import os, re
+          src = os.path.join(os.environ["GITHUB_WORKSPACE"], "data-generation")
+          text = open("coverage.xml", encoding="utf-8").read()
+          text = re.sub(r"<sources>.*?</sources>", lambda m: f"<sources><source>{src}</source></sources>", text, flags=re.S)
+          open("coverage.xml", "w", encoding="utf-8").write(text)
+          print("sources set to", src)
+          PY
 
       - name: Check SONAR_TOKEN is available
         env:
