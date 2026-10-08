@@ -1,0 +1,46 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch: {}
+
+jobs:
+  sonarqube:
+    name: Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # full history so Sonar can attribute blame and new code
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            data-generation/requirements.txt
+            data-generation/requirements-dev.txt
+
+      - name: Install dependencies
+        working-directory: data-generation
+        run: python -m pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: Run tests with coverage
+        working-directory: data-generation
+        run: python -m pytest --cov=src --cov=scripts --cov-report=xml:coverage.xml --cov-report=term-missing
+
+      # The Python Cobertura sensor resolves relative <source> entries against the
+      # scanner working directory (repo root), but coverage.xml is generated in
+      # data-generation, so make the sources repo-relative.
+      - name: Make coverage paths repo-relative for Sonar
+        working-directory: data-generation
+        run: sed -i -E 's#<source>([^/<][^<]*)</source>#<source>data-generation/\1</source>#' coverage.xml
+
+      - name: SonarQube scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
