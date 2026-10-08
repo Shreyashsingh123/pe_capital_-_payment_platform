@@ -4,3 +4,11 @@ data-generation/.env
 __pycache__/
 *.pyc
 .DS_Store
+.scannerwork/
+.sonar/
+# Test / coverage artifacts
+coverage.xml
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
