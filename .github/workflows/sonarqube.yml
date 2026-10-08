@@ -2,7 +2,7 @@ name: SonarQube
 on:
   push:
     branches:
-      - sonarqube
+      - main
 jobs:
   build:
     name: Build and analyze
