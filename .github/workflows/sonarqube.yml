@@ -35,6 +35,15 @@ jobs:
         working-directory: data-generation
         run: sed -i -E 's#<source>([^/<][^<]*)</source>#<source>data-generation/\1</source>#' coverage.xml
 
+      - name: Check SONAR_TOKEN is available
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "::error::SONAR_TOKEN is empty. Add it under Settings > Secrets and variables > Actions > Repository secrets."
+            exit 1
+          fi
+
       - name: Cache SonarQube packages
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
